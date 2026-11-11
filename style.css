@@ -1,0 +1,37 @@
+:root {
+  --ksu-black: #000000;
+  --ksu-gold: #FFC72C;
+  --ksu-gray: #B2B4B2;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: var(--ksu-black);
+}
+
+header {
+  background-color: var(--ksu-black);
+  color: var(--ksu-gold);
+  padding: 16px;
+  text-align: center;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+section {
+  border: 1px solid var(--ksu-gray);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  border-bottom: 3px solid var(--ksu-gold);
+  padding-bottom: 4px;
+}
