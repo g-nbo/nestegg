@@ -56,7 +56,7 @@ class SavingsGoal {
     this.amount = amount;
   }
 
-  // Return how much of the goal has been reached, as a percent of the balance
+  // Return the balance as a percent of the goal amount (from 0 up to 100)
   getProgress(balance) {}
 }
 
