@@ -49,6 +49,15 @@ Follow these steps every time you work on something:
    ```
 5. Open a Pull Request on GitHub. One teammate reviews and approves it before it gets merged.
 
+## Reporting bugs
+
+We track bugs in GitHub Issues.
+
+- Write the steps to make the bug happen, what you expected, what actually happened, and what browser you used.
+- Add the label `bug` or `enhancement`.
+- Assign it to the person who owns that part of the code.
+- Fix it on a new branch, and put `Fixes #(issue number)` in the pull request so the issue closes when it gets merged.
+
 ## Tips to avoid merge conflicts
 
 - Only edit your own section of `app.js`.
