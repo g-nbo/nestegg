@@ -57,7 +57,17 @@ class SavingsGoal {
   }
 
   // Return the balance as a percent of the goal amount (from 0 up to 100)
-  getProgress(balance) {}
+  
+  getProgress(balance) {
+    if (this.amount <= 0) {
+      return 0;
+    }
+
+    const progress = (balance / this.amount) * 100;
+
+    return Math.max(0, Math.min(100, progress));
+  }
+
 }
 
 
@@ -73,16 +83,32 @@ class StorageManager {
   }
 
   // Save the list of transactions to localStorage
-  saveTransactions(transactions) {}
+  saveTransactions(transactions) {
+    localStorage.setItem(this.transactionsKey, JSON.stringify(transactions));
+  }
 
   // Load the list of transactions from localStorage
-  loadTransactions() {}
+  loadTransactions() {
+    const data = localStorage.getItem(this.transactionsKey);
+    if (data == null) {
+      return [];
+    }
+    return JSON.parse(data);
+  }
 
   // Save the savings goal to localStorage
-  saveGoal(goal) {}
+  saveGoal(goal) {
+    localStorage.setItem(this.goalKey, JSON.stringify(goal));
+  }
 
   // Load the savings goal from localStorage
-  loadGoal() {}
+  loadGoal() {
+    const data = localStorage.getItem(this.goalKey);
+    if (data == null) {
+      return null;
+    }
+    return JSON.parse(data);
+  }
 }
 
 
