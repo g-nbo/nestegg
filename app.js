@@ -57,7 +57,17 @@ class SavingsGoal {
   }
 
   // Return how much of the goal has been reached, as a percent of the balance
-  getProgress(balance) {}
+  
+  getProgress(balance) {
+    if (this.amount <= 0) {
+      return 0;
+    }
+
+    const progress = (balance / this.amount) * 100;
+
+    return Math.max(0, Math.min(100, progress));
+  }
+
 }
 
 
