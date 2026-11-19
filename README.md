@@ -28,8 +28,9 @@ That's it. No installs needed.
 
 Follow these steps every time you work on something:
 
-1. Get the latest code:
+1. Go to `main` and get the latest code:
    ```
+   git checkout main
    git pull origin main
    ```
 2. Make a new branch for your work:
