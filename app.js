@@ -56,7 +56,7 @@ class SavingsGoal {
     this.amount = amount;
   }
 
-  // Return how much of the goal has been reached, as a percent of the balance
+  // Return the balance as a percent of the goal amount (from 0 up to 100)
   
   getProgress(balance) {
     if (this.amount <= 0) {
@@ -142,8 +142,8 @@ class UIController {
   // Check that the form inputs are filled in correctly
   validateInputs() {}
 
-  // Show an error message to the user
-  showError(message) {}
+  // Show an error message under the field that has the problem
+  showError(field, message) {}
 
   // Redraw the summary, list, goal, and category totals
   render() {}
