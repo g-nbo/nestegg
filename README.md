@@ -6,13 +6,13 @@ NestEgg is a simple budget tracker website for college students. You can add you
 
 ## Team
 
-| Name    | What they own |
-|---------|---------------|
-| Keidy   | `index.html` and `style.css` (page layout and styling) |
-| Elias   | `Transaction` and `TransactionManager` in `app.js` |
-| Tai     | `SavingsGoal` in `app.js` |
-| Ethan   | `StorageManager` in `app.js` (saving and loading data) |
-| Gabriel | `UIController` in `app.js` (forms, buttons, and updating the page) |
+| Name    | Role | What they own |
+|---------|------|---------------|
+| Gabriel | Team Leader | `UIController` in `app.js` (forms, buttons, and updating the page) |
+| Keidy   | Front End Developer | `index.html` and `style.css` (page layout and styling) |
+| Elias   | Back End / Logic Developer | `Transaction` and `TransactionManager` in `app.js` |
+| Ethan   | Tester | `StorageManager` in `app.js` (saving and loading data) |
+| Tai     | Documentation Lead | `SavingsGoal` in `app.js` |
 
 ## How to run it
 
