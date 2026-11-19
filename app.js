@@ -116,8 +116,8 @@ class UIController {
   // Check that the form inputs are filled in correctly
   validateInputs() {}
 
-  // Show an error message to the user
-  showError(message) {}
+  // Show an error message under the field that has the problem
+  showError(field, message) {}
 
   // Redraw the summary, list, goal, and category totals
   render() {}
