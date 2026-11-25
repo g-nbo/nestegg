@@ -3,14 +3,22 @@
 // Owner: Elias
 // ==============================
 
+// The six expense categories (SRS Table 1)
+const EXPENSE_CATEGORIES = ["Food", "Rent", "Gas", "School", "Fun", "Other"];
+
+// Turn a dollar amount into whole cents so adding money has no rounding errors
+function toCents(amount) {
+  return Math.round(Number(amount) * 100);
+}
+
 class Transaction {
   constructor(id, type, amount, date, category, note) {
-    this.id = id;
-    this.type = type;
-    this.amount = amount;
-    this.date = date;
-    this.category = category;
-    this.note = note;
+    this.id = String(id);
+    this.type = type; // "Income" or "Expense"
+    this.amount = toCents(amount) / 100; // rounded to 2 decimal places
+    this.date = date; // "YYYY-MM-DD"
+    this.category = type === "Income" ? "" : category; // empty for income
+    this.note = note ? String(note).slice(0, 50) : ""; // optional, up to 50 characters
   }
 }
 
@@ -20,28 +28,105 @@ class TransactionManager {
   }
 
   // Add a new transaction to the list
-  add(transaction) {}
+  add(transaction) {
+    // Turn plain objects (like ones loaded from localStorage) into Transactions
+    const t = new Transaction(transaction.id, transaction.type, transaction.amount,
+      transaction.date, transaction.category, transaction.note);
 
-  // Replace an existing transaction that has the same id
-  update(id, updatedTransaction) {}
+    // If the id is already used (two adds in the same millisecond), make it unique
+    while (this.transactions.some((existing) => existing.id === t.id)) {
+      t.id = String(Number(t.id) + 1);
+    }
+
+    this.transactions.push(t);
+    return t;
+  }
+
+  // Replace an existing transaction that has the same id.
+  // Only the amount, date, category, and note can change (FR-6); the id and type stay the same.
+  update(id, updatedTransaction) {
+    const index = this.transactions.findIndex((t) => t.id === String(id));
+    if (index === -1) {
+      return false;
+    }
+
+    const old = this.transactions[index];
+    this.transactions[index] = new Transaction(old.id, old.type, updatedTransaction.amount,
+      updatedTransaction.date, updatedTransaction.category, updatedTransaction.note);
+    return true;
+  }
 
   // Remove the transaction with the given id
-  remove(id) {}
+  remove(id) {
+    const index = this.transactions.findIndex((t) => t.id === String(id));
+    if (index === -1) {
+      return false;
+    }
 
-  // Return all transactions
-  getAll() {}
+    this.transactions.splice(index, 1);
+    return true;
+  }
+
+  // Return all transactions, newest date first (FR-5)
+  getAll() {
+    return this.transactions.slice().sort((a, b) => {
+      if (a.date !== b.date) {
+        return a.date < b.date ? 1 : -1;
+      }
+      // Same date: the one added last shows first
+      return Number(b.id) - Number(a.id);
+    });
+  }
 
   // Return the total of all income transactions
-  getTotalIncome() {}
+  getTotalIncome() {
+    let cents = 0;
+    this.transactions.forEach((t) => {
+      if (t.type === "Income") {
+        cents += toCents(t.amount);
+      }
+    });
+    return cents / 100;
+  }
 
   // Return the total of all expense transactions
-  getTotalSpending() {}
+  getTotalSpending() {
+    let cents = 0;
+    this.transactions.forEach((t) => {
+      if (t.type === "Expense") {
+        cents += toCents(t.amount);
+      }
+    });
+    return cents / 100;
+  }
 
   // Return total income minus total spending
-  getBalance() {}
+  getBalance() {
+    return (toCents(this.getTotalIncome()) - toCents(this.getTotalSpending())) / 100;
+  }
 
-  // Return an object with the total spent in each category
-  getCategoryTotals() {}
+  // Return an object with the total spent in each category, largest total first (TC-15)
+  getCategoryTotals() {
+    const cents = {};
+    EXPENSE_CATEGORIES.forEach((category) => {
+      cents[category] = 0;
+    });
+
+    this.transactions.forEach((t) => {
+      if (t.type === "Expense") {
+        const category = EXPENSE_CATEGORIES.includes(t.category) ? t.category : "Other";
+        cents[category] += toCents(t.amount);
+      }
+    });
+
+    // Sort largest first; categories with the same total keep the order of EXPENSE_CATEGORIES
+    const sorted = EXPENSE_CATEGORIES.slice().sort((a, b) => cents[b] - cents[a]);
+    const totals = {};
+    sorted.forEach((category) => {
+      totals[category] = cents[category] / 100;
+    });
+    return totals;
+  }
 }
 
 
